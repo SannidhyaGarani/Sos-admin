@@ -1,0 +1,107 @@
+.contact-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.form-section-compact {
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: var(--bg-light, #f8faff);
+    border: 1px solid var(--border-light, #e1e8f0);
+}
+
+.section-title-compact {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0A2540;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.section-title-compact svg {
+    color: var(--primary, #1174d6);
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.compact-upload label:hover {
+    border-color: var(--primary, #1174d6);
+    background-color: #fff;
+}
+
+/* Reusing and extending contact-card styles */
+.contact-card {
+    padding: 2.5rem !important;
+}
+
+.form-control::placeholder {
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.form-control {
+    font-size: 0.9rem !important;
+    height: 48px;
+}
+
+select.form-control {
+    color: #475569;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .contact-card {
+        padding: 1.5rem !important;
+    }
+    
+    .form-section-compact {
+        padding: 1rem;
+    }
+    
+    .section-title-compact {
+        font-size: 0.9rem;
+    }
+}
+
+/* Animations from Contact if any */
+.contact-title span {
+    color: var(--primary, #1174d6);
+}
+
+.contact-badge {
+    color: var(--primary, #1174d6) !important;
+    background: var(--primary-soft, rgba(17, 116, 214, 0.1)) !important;
+}
+
+/* Logo Styling */
+.logo-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-top: 30px;
+    margin-bottom: -20px;
+    z-index: 10;
+}
+
+.brand-logo {
+    height: 150px;
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+.brand-logo:hover {
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .logo-container {
+        padding-top: 20px;
+        margin-bottom: -10px;
+    }
+}
