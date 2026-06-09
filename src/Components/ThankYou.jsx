@@ -26,10 +26,6 @@ const ThankYou = () => {
                                     <Home size={18} />
                                     Back to Home
                                 </Link>
-                                <Link to="/join-as-partner" className="btn btn-outline-primary d-flex align-items-center justify-content-center gap-2 px-4 py-2">
-                                    View Program Details
-                                    <ArrowRight size={18} />
-                                </Link>
                             </div>
                         </div>
                     </div>
