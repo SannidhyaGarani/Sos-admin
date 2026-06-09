@@ -103,3 +103,56 @@ select.form-control {
         margin-bottom: -10px;
     }
 }
+
+/* Payment Section */
+.payment-alert {
+    background: rgba(17, 116, 214, 0.05);
+    padding: 1rem;
+    border-radius: 10px;
+    border-left: 4px solid var(--primary, #1174d6);
+    font-size: 0.85rem;
+    color: #475569;
+}
+
+.qr-container {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    display: inline-block;
+    position: relative;
+    border: 1px solid #e1e8f0;
+    margin-top: 1rem;
+}
+
+.qr-image {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.qr-badge {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary, #1174d6);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 4px 10px rgba(17, 116, 214, 0.3);
+}
+
+@media (max-width: 768px) {
+    .qr-container {
+        margin-top: 1.5rem;
+    }
+    .qr-image {
+        width: 150px;
+        height: 150px;
+    }
+}

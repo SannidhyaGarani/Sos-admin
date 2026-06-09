@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   User, Briefcase, MapPin, Phone, 
   Camera, Upload, Loader2, CheckCircle2, CreditCard 
@@ -9,6 +10,7 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import './JoinAsPartner.css';
 
 const JoinAsPartner = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         date: '',
         firstName: '',
@@ -136,7 +138,7 @@ const JoinAsPartner = () => {
             setFiles({ photograph: null, panCard: null, aadhaarCard: null });
             setPreviews({ photograph: null, panCard: null, aadhaarCard: null });
 
-            setTimeout(() => setSubmitted(false), 4000);
+            setTimeout(() => navigate('/thank-you'), 500);
         } catch (error) {
             console.error('Error submitting form:', error);
             alert('Submission failed. Check your internet and Firebase configuration.');
