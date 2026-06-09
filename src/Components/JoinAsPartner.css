@@ -84,7 +84,6 @@ select.form-control {
     display: flex;
     justify-content: center;
     width: 100%;
-    padding-top: 30px;
     margin-bottom: -20px;
     z-index: 10;
 }
@@ -101,7 +100,6 @@ select.form-control {
 
 @media (max-width: 768px) {
     .logo-container {
-        padding-top: 20px;
         margin-bottom: -10px;
     }
 }

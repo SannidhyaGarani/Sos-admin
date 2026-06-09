@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   User, Briefcase, MapPin, Phone, 
-  Camera, Upload, Loader2, CheckCircle2 
+  Camera, Upload, Loader2, CheckCircle2, CreditCard 
 } from 'lucide-react';
 import axios from 'axios';
 import { db } from './Firebase/Firebase';
@@ -10,8 +10,6 @@ import './JoinAsPartner.css';
 
 const JoinAsPartner = () => {
     const [formData, setFormData] = useState({
-        businessAdvisor: '',
-        reraNo: '',
         date: '',
         firstName: '',
         middleName: '',
@@ -32,16 +30,19 @@ const JoinAsPartner = () => {
         mobile1: '',
         mobile2: '',
         panCardNo: '',
+        aadhaarCardNo: '',
     });
 
     const [files, setFiles] = useState({
         photograph: null,
-        panCard: null
+        panCard: null,
+        aadhaarCard: null
     });
 
     const [previews, setPreviews] = useState({
         photograph: null,
-        panCard: null
+        panCard: null,
+        aadhaarCard: null
     });
 
     const [loading, setLoading] = useState(false);
@@ -85,8 +86,9 @@ const JoinAsPartner = () => {
         try {
             let photographUrl = '';
             let panCardUrl = '';
+            let aadhaarCardUrl = '';
 
-            const totalFiles = (files.photograph ? 1 : 0) + (files.panCard ? 1 : 0);
+            const totalFiles = (files.photograph ? 1 : 0) + (files.panCard ? 1 : 0) + (files.aadhaarCard ? 1 : 0);
             let uploadedCount = 0;
 
             const updateOverallProgress = (p) => {
@@ -103,6 +105,10 @@ const JoinAsPartner = () => {
                 panCardUrl = await uploadToCloudinary(files.panCard, updateOverallProgress);
                 uploadedCount++;
             }
+            if (files.aadhaarCard) {
+                aadhaarCardUrl = await uploadToCloudinary(files.aadhaarCard, updateOverallProgress);
+                uploadedCount++;
+            }
 
             setUploadProgress(98);
 
@@ -110,6 +116,7 @@ const JoinAsPartner = () => {
                 ...formData,
                 photographUrl,
                 panCardUrl,
+                aadhaarCardUrl,
                 createdAt: serverTimestamp(),
             });
 
@@ -117,17 +124,17 @@ const JoinAsPartner = () => {
             setSubmitted(true);
             
             setFormData({
-                businessAdvisor: '', reraNo: '', date: '',
+                date: '',
                 firstName: '', middleName: '', lastName: '',
                 fatherHusbandName: '', fatherHusbandMiddleName: '', fatherHusbandLastName: '',
                 dob: '',
                 localAddressLine2: '', localCity: '', localState: '', localPinCode: '',
                 permanentAddressLine1: '', permanentCity: '', permanentState: '', permanentPinCode: '',
                 email: '', mobile1: '', mobile2: '',
-                panCardNo: '',
+                panCardNo: '', aadhaarCardNo: '',
             });
-            setFiles({ photograph: null, panCard: null });
-            setPreviews({ photograph: null, panCard: null });
+            setFiles({ photograph: null, panCard: null, aadhaarCard: null });
+            setPreviews({ photograph: null, panCard: null, aadhaarCard: null });
 
             setTimeout(() => setSubmitted(false), 4000);
         } catch (error) {
@@ -151,7 +158,7 @@ const JoinAsPartner = () => {
                         Join as <span>Partner</span>
                     </h1>
                     <p className="contact-subtitle">
-                        Empower your future with Mahanta Group's premier partnership program.
+                        Empower your future with SOS Infrabulls's premier partnership program.
                     </p>
                 </div>
 
@@ -168,15 +175,14 @@ const JoinAsPartner = () => {
                             <form onSubmit={handleSubmit}>
                                 {/* Header Info */}
                                 <div className="form-section-compact mb-4">
-                                    <h5 className="section-title-compact"><User size={20} /> Header Information</h5>
+                                    <h5 className="section-title-compact"><Briefcase size={20} /> Basic Information</h5>
                                     <div className="row g-3">
-                                        <div className="col-md-4">
-                                            <input type="text" className="form-control" placeholder="Business Advisor" name="businessAdvisor" value={formData.businessAdvisor} onChange={handleChange} required />
+                                        <div className="col-md-6">
+                                            <label className="small text-muted mb-1">Application Date</label>
+                                            <input type="date" className="form-control" name="date" value={formData.date} onChange={handleChange} required />
                                         </div>
-                                        <div className="col-md-4">
-                                            <input type="text" className="form-control" placeholder="Rera No." name="reraNo" value={formData.reraNo} onChange={handleChange} required />
-                                        </div>
-                                        <div className="col-md-4">
+                                        <div className="col-md-6">
+                                            <label className="small text-muted mb-1">Your Photograph</label>
                                             <div className="compact-upload">
                                                 <input type="file" id="photo" name="photograph" accept="image/*" onChange={handleFileChange} hidden />
                                                 <label htmlFor="photo" className="form-control d-flex align-items-center justify-content-between cursor-pointer">
@@ -190,19 +196,15 @@ const JoinAsPartner = () => {
 
                                 {/* Basic Information */}
                                 <div className="form-section-compact mb-4">
-                                    <h5 className="section-title-compact"><Briefcase size={20} /> Basic Information</h5>
+                                    <h5 className="section-title-compact"><User size={20} /> Applicant Name</h5>
                                     <div className="row g-3">
-                                        <div className="col-md-3">
-                                            <label className="small text-muted mb-1"> Date</label>
-                                            <input type="date" className="form-control" name="date" value={formData.date} onChange={handleChange} required />
-                                        </div>
-                                        <div className="col-md-3">
+                                        <div className="col-md-4">
                                             <input type="text" className="form-control" placeholder="First Name" name="firstName" value={formData.firstName} onChange={handleChange} required />
                                         </div>
-                                        <div className="col-md-3">
+                                        <div className="col-md-4">
                                             <input type="text" className="form-control" placeholder="Middle Name" name="middleName" value={formData.middleName} onChange={handleChange} />
                                         </div>
-                                        <div className="col-md-3">
+                                        <div className="col-md-4">
                                             <input type="text" className="form-control" placeholder="Last Name" name="lastName" value={formData.lastName} onChange={handleChange} required />
                                         </div>
                                     </div>
@@ -224,29 +226,45 @@ const JoinAsPartner = () => {
                                 {/* Personal & Address */}
                                 <div className="row g-4">
                                     <div className="col-12">
-                                        <div className="form-section-compact mb-4">
-                                            <h5 className="section-title-compact"><User size={20} /> Personal Details</h5>
-                                            <div className="row g-3">
-                                                <div className="col-md-4">
-                                                    <label className="small text-muted mb-1">Date of Birth</label>
-                                                    <input type="date" className="form-control" name="dob" value={formData.dob} onChange={handleChange} required />
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <label className="small text-muted mb-1">PAN Card Number</label>
-                                                    <input type="text" className="form-control" placeholder="ABCDE1234F" name="panCardNo" value={formData.panCardNo} onChange={handleChange} required />
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <label className="small text-muted mb-1">PAN Card Image</label>
-                                                    <div className="compact-upload">
-                                                        <input type="file" id="pan-file" name="panCard" accept="image/*" onChange={handleFileChange} hidden />
-                                                        <label htmlFor="pan-file" className="form-control d-flex align-items-center justify-content-between cursor-pointer">
-                                                            <span className="text-muted small">{previews.panCard ? "PAN Selected ✓" : "Upload PAN"}</span>
-                                                            <Upload size={18} className="text-primary" />
-                                                        </label>
-                                                    </div>
-                                                </div>
+                                <div className="form-section-compact mb-4">
+                                    <h5 className="section-title-compact"><User size={20} /> Personal Details</h5>
+                                    <div className="row g-3">
+                                        <div className="col-md-4">
+                                            <label className="small text-muted mb-1">Date of Birth</label>
+                                            <input type="date" className="form-control" name="dob" value={formData.dob} onChange={handleChange} required />
+                                        </div>
+                                        <div className="col-md-4">
+                                            <label className="small text-muted mb-1">PAN Card Number</label>
+                                            <input type="text" className="form-control" placeholder="ABCDE1234F" name="panCardNo" value={formData.panCardNo} onChange={handleChange} required />
+                                        </div>
+                                        <div className="col-md-4">
+                                            <label className="small text-muted mb-1">PAN Card Image</label>
+                                            <div className="compact-upload">
+                                                <input type="file" id="pan-file" name="panCard" accept="image/*" onChange={handleFileChange} hidden />
+                                                <label htmlFor="pan-file" className="form-control d-flex align-items-center justify-content-between cursor-pointer">
+                                                    <span className="text-muted small">{previews.panCard ? "PAN Selected ✓" : "Upload PAN"}</span>
+                                                    <Upload size={18} className="text-primary" />
+                                                </label>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div className="row g-3 mt-1">
+                                        <div className="col-md-8">
+                                            <label className="small text-muted mb-1">Aadhaar Card Number</label>
+                                            <input type="text" className="form-control" placeholder="1234 5678 9012" name="aadhaarCardNo" value={formData.aadhaarCardNo} onChange={handleChange} required />
+                                        </div>
+                                        <div className="col-md-4">
+                                            <label className="small text-muted mb-1">Aadhaar Card Image</label>
+                                            <div className="compact-upload">
+                                                <input type="file" id="aadhaar-file" name="aadhaarCard" accept="image/*" onChange={handleFileChange} hidden />
+                                                <label htmlFor="aadhaar-file" className="form-control d-flex align-items-center justify-content-between cursor-pointer">
+                                                    <span className="text-muted small">{previews.aadhaarCard ? "Aadhaar Selected ✓" : "Upload Aadhaar"}</span>
+                                                    <Upload size={18} className="text-primary" />
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                     </div>
                                 </div>
 
@@ -306,6 +324,27 @@ const JoinAsPartner = () => {
                                         </div>
                                         <div className="col-md-4">
                                             <input type="tel" className="form-control" placeholder="Mobile 2 (Opt)" name="mobile2" value={formData.mobile2} onChange={handleChange} />
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* Payment Information */}
+                                <div className="form-section-compact mb-4">
+                                    <h5 className="section-title-compact"><CreditCard size={20} /> Payment Details (Registration Fee)</h5>
+                                    <div className="row align-items-center">
+                                        <div className="col-md-7">
+                                            <p className="text-muted small mb-3">
+                                                To complete your partnership registration, please scan the QR code to pay the processing fee. 
+                                                Once paid, your application will be reviewed by our team.
+                                            </p>
+                                            <div className="payment-alert">
+                                                <span className="fw-bold text-primary">Note:</span> Please mention your mobile number in the transaction note for faster verification.
+                                            </div>
+                                        </div>
+                                        <div className="col-md-5 text-center">
+                                            <div className="qr-container">
+                                                <img src="/img/qr.jpeg" alt="UPI QR Code" className="qr-image" />
+                                                <div className="qr-badge">Scan to Pay</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

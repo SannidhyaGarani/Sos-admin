@@ -6,7 +6,7 @@ import { collection, getDocs, orderBy, query, deleteDoc, doc } from 'firebase/fi
 import { 
     Users, Eye, Trash2, X, Mail, Phone, MapPin, 
     Calendar, Briefcase, IdCard, Loader2, RefreshCw,
-    User, Image, LogOut
+    User, Image, LogOut, Download
 } from 'lucide-react';
 import './AdminPanel.css';
 
@@ -92,6 +92,57 @@ const AdminPanel = () => {
         return timestamp;
     };
 
+    const downloadCSV = () => {
+        if (partners.length === 0) return;
+
+        const headers = [
+            "First Name", "Middle Name", "Last Name", "Email", "Mobile 1", "Mobile 2",
+            "DOB", "Aadhaar Card No", "PAN Card No", "Application Date",
+            "Local Address", "Local City", "Local State", "Local PinCode",
+            "Permanent Address", "Permanent City", "Permanent State", "Permanent PinCode",
+            "Photograph URL", "PAN Card URL", "Aadhaar Card URL"
+        ];
+
+        const rows = partners.map(partner => [
+            `"${partner.firstName || ''}"`,
+            `"${partner.middleName || ''}"`,
+            `"${partner.lastName || ''}"`,
+            `"${partner.email || ''}"`,
+            `"${partner.mobile1 || ''}"`,
+            `"${partner.mobile2 || ''}"`,
+            `"${partner.dob || ''}"`,
+            `"${partner.aadhaarCardNo || ''}"`,
+            `"${partner.panCardNo || ''}"`,
+            `"${partner.date || ''}"`,
+            `"${partner.localAddressLine2 || ''}"`,
+            `"${partner.localCity || ''}"`,
+            `"${partner.localState || ''}"`,
+            `"${partner.localPinCode || ''}"`,
+            `"${partner.permanentAddressLine1 || ''}"`,
+            `"${partner.permanentCity || ''}"`,
+            `"${partner.permanentState || ''}"`,
+            `"${partner.permanentPinCode || ''}"`,
+            `"${partner.photographUrl || ''}"`,
+            `"${partner.panCardUrl || ''}"`,
+            `"${partner.aadhaarCardUrl || ''}"`
+        ]);
+
+        const csvContent = [
+            headers.join(","),
+            ...rows.map(row => row.join(","))
+        ].join("\n");
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", `partner_applications_${new Date().toISOString().split('T')[0]}.csv`);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     if (authLoading) {
         return (
             <div className="admin-loading-screen" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', color: '#1174d6' }}>
@@ -113,13 +164,16 @@ const AdminPanel = () => {
                             </div>
                             <div>
                                 <h1 className="admin-title">Partner Applications</h1>
-                                <p className="admin-subtitle mb-0">Mahanta Group Admin Panel</p>
+                                <p className="admin-subtitle mb-0">SOS Infrabulls Admin Panel</p>
                             </div>
                         </div>
                         <div className="d-flex align-items-center gap-3">
                             <span className="admin-count-badge">
                                 {partners.length} {partners.length === 1 ? 'Partner' : 'Partners'}
                             </span>
+                            <button className="btn-refresh" onClick={downloadCSV} title="Download CSV">
+                                <Download size={18} />
+                            </button>
                             <button className="btn-refresh" onClick={fetchPartners} title="Refresh">
                                 <RefreshCw size={18} />
                             </button>
@@ -156,7 +210,7 @@ const AdminPanel = () => {
                                     <th>Email</th>
                                     <th>Mobile</th>
                                     <th>City</th>
-                                    <th>RERA No.</th>
+                                    <th>Aadhaar No.</th>
                                     <th>Date</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
@@ -185,7 +239,7 @@ const AdminPanel = () => {
                                         <td className="text-muted">{partner.mobile1 || 'N/A'}</td>
                                         <td className="text-muted">{partner.localCity || 'N/A'}</td>
                                         <td>
-                                            <span className="rera-badge">{partner.reraNo || 'N/A'}</span>
+                                            <span className="id-badge">{partner.aadhaarCardNo || 'N/A'}</span>
                                         </td>
                                         <td className="text-muted">{formatDate(partner.createdAt)}</td>
                                         <td>
@@ -238,7 +292,7 @@ const AdminPanel = () => {
                             <h3 className="modal-name">
                                 {selectedPartner.firstName} {selectedPartner.middleName} {selectedPartner.lastName}
                             </h3>
-                            <span className="modal-rera">RERA: {selectedPartner.reraNo || 'N/A'}</span>
+                            <span className="modal-id-info">Aadhaar: {selectedPartner.aadhaarCardNo || 'N/A'}</span>
                         </div>
 
                         {/* Modal Body */}
@@ -246,20 +300,20 @@ const AdminPanel = () => {
                             {/* Business Info */}
                             <div className="detail-section">
                                 <h6 className="detail-section-title">
-                                    <Briefcase size={16} /> Business Information
+                                    <Briefcase size={16} /> Application Information
                                 </h6>
                                 <div className="detail-grid">
                                     <div className="detail-item">
-                                        <span className="detail-label">Business Advisor</span>
-                                        <span className="detail-value">{selectedPartner.businessAdvisor || 'N/A'}</span>
-                                    </div>
-                                    <div className="detail-item">
-                                        <span className="detail-label">RERA No.</span>
-                                        <span className="detail-value">{selectedPartner.reraNo || 'N/A'}</span>
-                                    </div>
-                                    <div className="detail-item">
                                         <span className="detail-label">Application Date</span>
                                         <span className="detail-value">{selectedPartner.date || 'N/A'}</span>
+                                    </div>
+                                    <div className="detail-item">
+                                        <span className="detail-label">PAN Card No.</span>
+                                        <span className="detail-value fw-bold text-primary">{selectedPartner.panCardNo || 'N/A'}</span>
+                                    </div>
+                                    <div className="detail-item">
+                                        <span className="detail-label">Aadhaar Card No.</span>
+                                        <span className="detail-value fw-bold text-success">{selectedPartner.aadhaarCardNo || 'N/A'}</span>
                                     </div>
                                 </div>
                             </div>
@@ -285,10 +339,6 @@ const AdminPanel = () => {
                                     <div className="detail-item">
                                         <span className="detail-label">Date of Birth</span>
                                         <span className="detail-value">{selectedPartner.dob || 'N/A'}</span>
-                                    </div>
-                                    <div className="detail-item">
-                                        <span className="detail-label">PAN Card No.</span>
-                                        <span className="detail-value fw-bold text-primary">{selectedPartner.panCardNo || 'N/A'}</span>
                                     </div>
                                 </div>
                             </div>
@@ -361,21 +411,41 @@ const AdminPanel = () => {
                                 </div>
                             </div>
 
-                            {/* PAN Card */}
-                            {selectedPartner.panCardUrl && (
-                                <div className="detail-section">
-                                    <h6 className="detail-section-title">
-                                        <IdCard size={16} /> PAN Card Document
-                                    </h6>
-                                    <div className="id-proof-preview">
-                                        <img 
-                                            src={selectedPartner.panCardUrl} 
-                                            alt="PAN Card" 
-                                            className="id-proof-image"
-                                        />
-                                    </div>
-                                </div>
-                            )}
+                             {/* Identity Proofs */}
+                             <div className="row g-3">
+                                 {selectedPartner.panCardUrl && (
+                                     <div className="col-md-6">
+                                         <div className="detail-section">
+                                             <h6 className="detail-section-title">
+                                                 <IdCard size={16} /> PAN Card Document
+                                             </h6>
+                                             <div className="id-proof-preview">
+                                                 <img 
+                                                     src={selectedPartner.panCardUrl} 
+                                                     alt="PAN Card" 
+                                                     className="id-proof-image"
+                                                 />
+                                             </div>
+                                         </div>
+                                     </div>
+                                 )}
+                                 {selectedPartner.aadhaarCardUrl && (
+                                     <div className="col-md-6">
+                                         <div className="detail-section">
+                                             <h6 className="detail-section-title">
+                                                 <IdCard size={16} /> Aadhaar Card Document
+                                             </h6>
+                                             <div className="id-proof-preview">
+                                                 <img 
+                                                     src={selectedPartner.aadhaarCardUrl} 
+                                                     alt="Aadhaar Card" 
+                                                     className="id-proof-image"
+                                                 />
+                                             </div>
+                                         </div>
+                                     </div>
+                                 )}
+                             </div>
 
                             {/* Submitted At */}
                             <div className="detail-footer">

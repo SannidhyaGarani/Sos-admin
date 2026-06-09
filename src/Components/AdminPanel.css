@@ -139,9 +139,9 @@
     color: #94a3b8;
 }
 
-.rera-badge {
-    background: #eff6ff;
-    color: #1d4ed8;
+.id-badge {
+    background: #ecfdf5;
+    color: #059669;
     padding: 4px 10px;
     border-radius: 6px;
     font-size: 0.8rem;
@@ -283,7 +283,7 @@
     margin-bottom: 0.3rem;
 }
 
-.modal-rera {
+.modal-id-info {
     color: rgba(255,255,255,0.6);
     font-size: 0.85rem;
     font-weight: 500;
