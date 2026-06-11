@@ -31,9 +31,13 @@ const JoinAsPartner = () => {
         email: '',
         mobile1: '',
         mobile2: '',
-        panCardNo: '',
-        aadhaarCardNo: '',
+        reference: '',
+        department: '',
+        leaderName: '',
+        planBy: '',
     });
+
+    const [agreedToTerms, setAgreedToTerms] = useState(false);
 
     const [files, setFiles] = useState({
         photograph: null,
@@ -133,8 +137,9 @@ const JoinAsPartner = () => {
                 localAddressLine2: '', localCity: '', localState: '', localPinCode: '',
                 permanentAddressLine1: '', permanentCity: '', permanentState: '', permanentPinCode: '',
                 email: '', mobile1: '', mobile2: '',
-                panCardNo: '', aadhaarCardNo: '',
+                reference: '', department: '', leaderName: '', planBy: '',
             });
+            setAgreedToTerms(false);
             setFiles({ photograph: null, panCard: null, aadhaarCard: null });
             setPreviews({ photograph: null, panCard: null, aadhaarCard: null });
 
@@ -186,9 +191,9 @@ const JoinAsPartner = () => {
                                         <div className="col-md-6">
                                             <label className="small text-muted mb-1">Your Photograph</label>
                                             <div className="compact-upload">
-                                                <input type="file" id="photo" name="photograph" accept="image/*" onChange={handleFileChange} hidden />
+                                                <input type="file" id="photo" name="photograph" accept="image/*" onChange={handleFileChange} hidden required />
                                                 <label htmlFor="photo" className="form-control d-flex align-items-center justify-content-between cursor-pointer">
-                                                    <span className="text-muted">{previews.photograph ? "Photo Selected ✓" : "Upload Photograph"}</span>
+                                                    <span className="text-muted">{previews.photograph ? "Photo Selected ✓" : "Upload Photograph *"}</span>
                                                     <Camera size={18} className="text-primary" />
                                                 </label>
                                             </div>
@@ -214,13 +219,13 @@ const JoinAsPartner = () => {
                                     <h6 className="mt-3 text-muted small fw-bold">Father / Husband Details</h6>
                                     <div className="row g-3 mt-1">
                                         <div className="col-md-4">
-                                            <input type="text" className="form-control" placeholder="First Name" name="fatherHusbandName" value={formData.fatherHusbandName} onChange={handleChange} />
+                                            <input type="text" className="form-control" placeholder="First Name" name="fatherHusbandName" value={formData.fatherHusbandName} onChange={handleChange} required />
                                         </div>
                                         <div className="col-md-4">
                                             <input type="text" className="form-control" placeholder="Middle Name" name="fatherHusbandMiddleName" value={formData.fatherHusbandMiddleName} onChange={handleChange} />
                                         </div>
                                         <div className="col-md-4">
-                                            <input type="text" className="form-control" placeholder="Last Name" name="fatherHusbandLastName" value={formData.fatherHusbandLastName} onChange={handleChange} />
+                                            <input type="text" className="form-control" placeholder="Last Name" name="fatherHusbandLastName" value={formData.fatherHusbandLastName} onChange={handleChange} required />
                                         </div>
                                     </div>
                                 </div>
@@ -236,37 +241,46 @@ const JoinAsPartner = () => {
                                             <input type="date" className="form-control" name="dob" value={formData.dob} onChange={handleChange} required />
                                         </div>
                                         <div className="col-md-4">
-                                            <label className="small text-muted mb-1">PAN Card Number</label>
-                                            <input type="text" className="form-control" placeholder="ABCDE1234F" name="panCardNo" value={formData.panCardNo} onChange={handleChange} required />
-                                        </div>
-                                        <div className="col-md-4">
                                             <label className="small text-muted mb-1">PAN Card Image</label>
                                             <div className="compact-upload">
-                                                <input type="file" id="pan-file" name="panCard" accept="image/*" onChange={handleFileChange} hidden />
+                                                <input type="file" id="pan-file" name="panCard" accept="image/*" onChange={handleFileChange} hidden required />
                                                 <label htmlFor="pan-file" className="form-control d-flex align-items-center justify-content-between cursor-pointer">
-                                                    <span className="text-muted small">{previews.panCard ? "PAN Selected ✓" : "Upload PAN"}</span>
+                                                    <span className="text-muted small">{previews.panCard ? "PAN Selected ✓" : "Upload PAN *"}</span>
                                                     <Upload size={18} className="text-primary" />
                                                 </label>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="row g-3 mt-1">
-                                        <div className="col-md-8">
-                                            <label className="small text-muted mb-1">Aadhaar Card Number</label>
-                                            <input type="text" className="form-control" placeholder="1234 5678 9012" name="aadhaarCardNo" value={formData.aadhaarCardNo} onChange={handleChange} required />
-                                        </div>
                                         <div className="col-md-4">
                                             <label className="small text-muted mb-1">Aadhaar Card Image</label>
                                             <div className="compact-upload">
-                                                <input type="file" id="aadhaar-file" name="aadhaarCard" accept="image/*" onChange={handleFileChange} hidden />
+                                                <input type="file" id="aadhaar-file" name="aadhaarCard" accept="image/*" onChange={handleFileChange} hidden required />
                                                 <label htmlFor="aadhaar-file" className="form-control d-flex align-items-center justify-content-between cursor-pointer">
-                                                    <span className="text-muted small">{previews.aadhaarCard ? "Aadhaar Selected ✓" : "Upload Aadhaar"}</span>
+                                                    <span className="text-muted small">{previews.aadhaarCard ? "Aadhaar Selected ✓" : "Upload Aadhaar *"}</span>
                                                     <Upload size={18} className="text-primary" />
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                    </div>
+                                </div>
+
+                                {/* Recruitment Details */}
+                                <div className="form-section-compact mb-4">
+                                    <h5 className="section-title-compact"><Briefcase size={20} /> Professional Details</h5>
+                                    <div className="row g-3">
+                                        <div className="col-md-6">
+                                            <input type="text" className="form-control" placeholder="Reference" name="reference" value={formData.reference} onChange={handleChange} required />
+                                        </div>
+                                        <div className="col-md-6">
+                                            <input type="text" className="form-control" placeholder="Department" name="department" value={formData.department} onChange={handleChange} required />
+                                        </div>
+                                        <div className="col-md-6">
+                                            <input type="text" className="form-control" placeholder="Leader Name" name="leaderName" value={formData.leaderName} onChange={handleChange} required />
+                                        </div>
+                                        <div className="col-md-6">
+                                            <input type="text" className="form-control" placeholder="Plan By" name="planBy" value={formData.planBy} onChange={handleChange} required />
+                                        </div>
                                     </div>
                                 </div>
 
@@ -325,7 +339,7 @@ const JoinAsPartner = () => {
                                             <input type="tel" className="form-control" placeholder="Mobile 1" name="mobile1" value={formData.mobile1} onChange={handleChange} required />
                                         </div>
                                         <div className="col-md-4">
-                                            <input type="tel" className="form-control" placeholder="Mobile 2 (Opt)" name="mobile2" value={formData.mobile2} onChange={handleChange} />
+                                            <input type="tel" className="form-control" placeholder="Mobile 2" name="mobile2" value={formData.mobile2} onChange={handleChange} required />
                                         </div>
                                     </div>
                                 </div>
@@ -351,6 +365,22 @@ const JoinAsPartner = () => {
                                     </div>
                                 </div>
 
+                                <div className="terms-agreement mb-4 text-start">
+                                    <div className="form-check d-flex align-items-center gap-2">
+                                        <input 
+                                            className="form-check-input" 
+                                            type="checkbox" 
+                                            id="termsCheck" 
+                                            checked={agreedToTerms}
+                                            onChange={(e) => setAgreedToTerms(e.target.checked)}
+                                            required 
+                                        />
+                                        <label className="form-check-label small text-muted cursor-pointer" htmlFor="termsCheck">
+                                            I agree to the <a href="/terms" target="_blank" className="text-primary text-decoration-none">Terms and Conditions</a> of SOS Infrabulls
+                                        </label>
+                                    </div>
+                                </div>
+
                                 <div className="text-center mt-4">
                                     {loading && (
                                         <div className="progress mb-3" style={{ height: '20px', borderRadius: '10px' }}>
@@ -363,7 +393,11 @@ const JoinAsPartner = () => {
                                             </div>
                                         </div>
                                     )}
-                                    <button type="submit" className="btn btn-primary px-5 py-3 w-100" disabled={loading}>
+                                    <button 
+                                        type="submit" 
+                                        className="btn btn-primary px-5 py-3 w-100" 
+                                        disabled={loading || !agreedToTerms}
+                                    >
                                         {loading ? (
                                             <span className="d-flex align-items-center justify-content-center gap-2">
                                                 <Loader2 size={20} className="spinner-icon" /> 

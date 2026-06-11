@@ -1,0 +1,78 @@
+.terms-wrapper {
+    background: linear-gradient(135deg, #f8faff 0%, #eef2f7 100%);
+    min-height: 100vh;
+}
+
+.terms-card {
+    background: white;
+    border-radius: 20px;
+    max-width: 800px;
+    overflow: hidden;
+    border: none;
+}
+
+.terms-header {
+    background: linear-gradient(to right, #1171d1, #1e3c72);
+    color: white;
+}
+
+.terms-header h1 {
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.terms-header .text-muted {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.icon-badge {
+    display: inline-flex;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+}
+
+.terms-body {
+    background: white;
+}
+
+.terms-section h4 {
+    color: #1e3c72;
+    font-weight: 700;
+}
+
+.terms-section p {
+    color: #4a5568;
+    line-height: 1.7;
+}
+
+.terms-list {
+    padding-left: 1.2rem;
+    color: #4a5568;
+}
+
+.terms-list li {
+    margin-bottom: 0.8rem;
+    position: relative;
+    list-style-type: none;
+}
+
+.terms-list li::before {
+    content: "•";
+    color: #1171d1;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+.terms-footer {
+    border-color: #edf2f7 !important;
+}
+
+@media (max-width: 768px) {
+    .terms-card {
+        border-radius: 0;
+    }
+}

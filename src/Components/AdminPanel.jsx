@@ -97,7 +97,7 @@ const AdminPanel = () => {
 
         const headers = [
             "First Name", "Middle Name", "Last Name", "Email", "Mobile 1", "Mobile 2",
-            "DOB", "Aadhaar Card No", "PAN Card No", "Application Date",
+            "DOB", "Reference", "Department", "Leader Name", "Plan By", "Application Date",
             "Local Address", "Local City", "Local State", "Local PinCode",
             "Permanent Address", "Permanent City", "Permanent State", "Permanent PinCode",
             "Photograph URL", "PAN Card URL", "Aadhaar Card URL"
@@ -111,8 +111,10 @@ const AdminPanel = () => {
             `"${partner.mobile1 || ''}"`,
             `"${partner.mobile2 || ''}"`,
             `"${partner.dob || ''}"`,
-            `"${partner.aadhaarCardNo || ''}"`,
-            `"${partner.panCardNo || ''}"`,
+            `"${partner.reference || ''}"`,
+            `"${partner.department || ''}"`,
+            `"${partner.leaderName || ''}"`,
+            `"${partner.planBy || ''}"`,
             `"${partner.date || ''}"`,
             `"${partner.localAddressLine2 || ''}"`,
             `"${partner.localCity || ''}"`,
@@ -210,7 +212,8 @@ const AdminPanel = () => {
                                     <th>Email</th>
                                     <th>Mobile</th>
                                     <th>City</th>
-                                    <th>Aadhaar No.</th>
+                                    <th>Department</th>
+                                    <th>Reference</th>
                                     <th>Date</th>
                                     <th className="text-center">Actions</th>
                                 </tr>
@@ -239,8 +242,9 @@ const AdminPanel = () => {
                                         <td className="text-muted">{partner.mobile1 || 'N/A'}</td>
                                         <td className="text-muted">{partner.localCity || 'N/A'}</td>
                                         <td>
-                                            <span className="id-badge">{partner.aadhaarCardNo || 'N/A'}</span>
+                                            <span className="id-badge">{partner.department || 'N/A'}</span>
                                         </td>
+                                        <td className="text-muted">{partner.reference || 'N/A'}</td>
                                         <td className="text-muted">{formatDate(partner.createdAt)}</td>
                                         <td>
                                             <div className="d-flex justify-content-center gap-2">
@@ -292,7 +296,7 @@ const AdminPanel = () => {
                             <h3 className="modal-name">
                                 {selectedPartner.firstName} {selectedPartner.middleName} {selectedPartner.lastName}
                             </h3>
-                            <span className="modal-id-info">Aadhaar: {selectedPartner.aadhaarCardNo || 'N/A'}</span>
+                            <span className="modal-id-info">Dept: {selectedPartner.department || 'N/A'} | Ref: {selectedPartner.reference || 'N/A'}</span>
                         </div>
 
                         {/* Modal Body */}
@@ -308,12 +312,12 @@ const AdminPanel = () => {
                                         <span className="detail-value">{selectedPartner.date || 'N/A'}</span>
                                     </div>
                                     <div className="detail-item">
-                                        <span className="detail-label">PAN Card No.</span>
-                                        <span className="detail-value fw-bold text-primary">{selectedPartner.panCardNo || 'N/A'}</span>
+                                        <span className="detail-label">Leader Name</span>
+                                        <span className="detail-value fw-bold text-primary">{selectedPartner.leaderName || 'N/A'}</span>
                                     </div>
                                     <div className="detail-item">
-                                        <span className="detail-label">Aadhaar Card No.</span>
-                                        <span className="detail-value fw-bold text-success">{selectedPartner.aadhaarCardNo || 'N/A'}</span>
+                                        <span className="detail-label">Plan By</span>
+                                        <span className="detail-value fw-bold text-success">{selectedPartner.planBy || 'N/A'}</span>
                                     </div>
                                 </div>
                             </div>
