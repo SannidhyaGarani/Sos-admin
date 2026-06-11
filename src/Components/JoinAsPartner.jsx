@@ -155,7 +155,7 @@ const JoinAsPartner = () => {
             </div>
             <section className="container py-5">
                 <div className="text-center mb-5">
-                    <span className="contact-badge">PARTNER PROGRAM</span>
+                    <span className="contact-badge">ASSOCIATE CHANNEL PARTNER </span>
                     <h1 className="contact-title mt-3">
                         Join as <span>Partner</span>
                     </h1>
